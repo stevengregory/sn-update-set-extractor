@@ -1,0 +1,33 @@
+# Go Binary
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go Packages
+*.o
+*.a
+*.test
+
+# Output directories
+/bin/
+/pkg/
+/dist/
+/output/
+
+# Ignore compiled output
+*.out
+
+# IDE-specific files and directories
+.idea/
+.vscode/
+
+# Exclude generated files
+/generated/
+
+# Test data
+/data/
+
+# Misc
+.DS_Store
