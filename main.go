@@ -82,7 +82,7 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 	}
 
 	for _, script := range unload.XMLScripts {
-		if script.Type == "System Property" {
+		if shouldExclude(script.Type) {
 			continue
 		}
 
@@ -134,6 +134,21 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 	}
 
 	return nil
+}
+
+func shouldExclude(fileType string) bool {
+	if fileType == "System Property" ||
+		fileType == "Access Roles" ||
+		fileType == "Dictionary" ||
+		fileType == "Field Label" ||
+		fileType == "Form Layout" ||
+		fileType == "HTTP Method" ||
+		fileType == "REST Message" ||
+		fileType == "Scripted REST API" ||
+		fileType == "Scripted REST Version" {
+		return true
+	}
+	return false
 }
 
 func main() {
