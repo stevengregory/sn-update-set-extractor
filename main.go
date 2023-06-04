@@ -91,7 +91,7 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 			return err
 		}
 
-		if script.Type == "Widget" {
+		if script.Type == "Widget" || script.Type == "Header | Footer" {
 			var recordUpdate RecordUpdate
 			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
 			if err != nil {
