@@ -6,14 +6,13 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 )
 
 type Unload struct {
-	XMLName     xml.Name    `xml:"unload"`
-	UpdateSets  []UpdateSet `xml:"sys_remote_update_set"`
-	XMLScripts  []XMLScript `xml:"sys_update_xml"`
+	XMLName    xml.Name    `xml:"unload"`
+	UpdateSets []UpdateSet `xml:"sys_remote_update_set"`
+	XMLScripts []XMLScript `xml:"sys_update_xml"`
 }
 
 type UpdateSet struct {
@@ -23,11 +22,26 @@ type UpdateSet struct {
 }
 
 type XMLScript struct {
-	Action    string `xml:"action"`
-	Application   string `xml:"application"`
-	Name      string `xml:"name"`
-	Type      string `xml:"type"`
-	Payload   string `xml:"payload"`
+	Action      string `xml:"action"`
+	Application string `xml:"application"`
+	Name        string `xml:"name"`
+	Type        string `xml:"type"`
+	Payload     string `xml:"payload"`
+}
+
+type Widget struct {
+	XMLName      xml.Name `xml:"sp_widget"`
+	ClientScript string   `xml:"client_script"`
+	Css          string   `xml:"css"`
+	Script       string   `xml:"script"`
+	Template     string   `xml:"template"`
+	OptionSchema string   `xml:"option_schema"`
+	Link         string   `xml:"link"`
+}
+
+type RecordUpdate struct {
+	XMLName xml.Name `xml:"record_update"`
+	Widget  Widget   `xml:"sp_widget"`
 }
 
 func parseXMLFile(filePath string) (*Unload, error) {
@@ -45,14 +59,16 @@ func parseXMLFile(filePath string) (*Unload, error) {
 	return &unload, nil
 }
 
-func extractJavaScriptCode(unload *Unload) []string {
-	var jsCode []string
+func extractCDATA(content string) string {
+	jsContent := strings.TrimSpace(content)
 
-	for _, script := range unload.XMLScripts {
-		jsCode = append(jsCode, script.Payload)
+	jsCodeStart := strings.Index(jsContent, "<![CDATA[")
+	jsCodeEnd := strings.LastIndex(jsContent, "]]>")
+	if jsCodeStart != -1 && jsCodeEnd != -1 {
+		jsContent = jsContent[jsCodeStart+len("<![CDATA[") : jsCodeEnd]
 	}
 
-	return jsCode
+	return jsContent
 }
 
 func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
@@ -60,9 +76,17 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 		return err
 	}
 
+	widgetFileTypes := map[string]string{
+		"client_script": "client-script.js",
+		"css":           "style.scss",
+		"script":        "script.js",
+		"template":      "template.html",
+		"option_schema": "options.json",
+		"link":          "link.js",
+	}
+
 	for _, script := range unload.XMLScripts {
 
-		// Skip creating directory for "System Property" type
 		if script.Type == "System Property" {
 			continue
 		}
@@ -73,39 +97,48 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 			return err
 		}
 
-		fileName := fmt.Sprintf("%s.js", strings.ToLower(script.Name))
-		filePath := filepath.Join(dirPath, fileName)
+		if script.Type == "Widget" {
+			var recordUpdate RecordUpdate
+			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
+			if err != nil {
+				fmt.Printf("Failed to parse widget: %v\n", err)
+				continue
+			}
+			widget := recordUpdate.Widget
 
-		jsContent := removeXMLTags(script.Payload)
+			fmt.Printf("Parsed widget: %+v\n", widget)
 
-		if err := ioutil.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
-			return err
+			jsContent := map[string]string{
+				"client_script": extractCDATA(widget.ClientScript),
+				"css":           extractCDATA(widget.Css),
+				"script":        extractCDATA(widget.Script),
+				"template":      extractCDATA(widget.Template),
+				"option_schema": extractCDATA(widget.OptionSchema),
+				"link":          extractCDATA(widget.Link),
+			}
+
+			for key, value := range jsContent {
+				fileName := widgetFileTypes[key]
+				filePath := filepath.Join(dirPath, fileName)
+				if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
+					return err
+				}
+			}
+
+		} else {
+			fileName := fmt.Sprintf("%s.js", strings.ToLower(script.Name))
+			filePath := filepath.Join(dirPath, fileName)
+
+			jsContent := extractCDATA(script.Payload)
+
+			if err := ioutil.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
+				return err
+			}
 		}
 	}
 
 	return nil
 }
-
-
-func removeXMLTags(content string) string {
-	// Remove XML tags using regular expressions
-	xmlTagRegex := regexp.MustCompile(`<.*?>`)
-	jsContent := xmlTagRegex.ReplaceAllString(content, "")
-
-	// Remove leading and trailing whitespaces
-	jsContent = strings.TrimSpace(jsContent)
-
-	// Extract only the JavaScript code from the payload
-	jsCodeStart := strings.Index(jsContent, "<![CDATA[")
-	jsCodeEnd := strings.LastIndex(jsContent, "]]>")
-	if jsCodeStart != -1 && jsCodeEnd != -1 {
-		jsContent = jsContent[jsCodeStart+len("<![CDATA[") : jsCodeEnd]
-	}
-
-	return jsContent
-}
-
-
 
 func main() {
 	xmlFilePath := os.Args[1]
@@ -114,18 +147,14 @@ func main() {
 	unload, err := parseXMLFile(xmlFilePath)
 	if err != nil {
 		fmt.Println("Error parsing XML:", err)
-		return
+		os.Exit(1)
 	}
-
-	jsCode := extractJavaScriptCode(unload)
 
 	err = createDirectoryStructureAndFiles(unload, outputDir)
 	if err != nil {
 		fmt.Println("Error creating directory structure and files:", err)
-		return
+		os.Exit(1)
 	}
 
-	for _, code := range jsCode {
-		fmt.Println(code)
-	}
+	fmt.Println("Directories and files successfully created in", outputDir)
 }
