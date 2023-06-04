@@ -72,10 +72,6 @@ func extractCDATA(content string) string {
 }
 
 func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		return err
-	}
-
 	widgetFileTypes := map[string]string{
 		"client_script": "client-script.js",
 		"css":           "style.scss",
@@ -86,13 +82,11 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 	}
 
 	for _, script := range unload.XMLScripts {
-
 		if script.Type == "System Property" {
 			continue
 		}
 
 		dirPath := filepath.Join(outputDir, script.Type)
-
 		if err := os.MkdirAll(dirPath, 0755); err != nil {
 			return err
 		}
@@ -104,10 +98,14 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 				fmt.Printf("Failed to parse widget: %v\n", err)
 				continue
 			}
+
+			// Create directory for the widget
+			widgetDirPath := filepath.Join(dirPath, script.Name)
+			if err := os.MkdirAll(widgetDirPath, 0755); err != nil {
+				return err
+			}
+
 			widget := recordUpdate.Widget
-
-			fmt.Printf("Parsed widget: %+v\n", widget)
-
 			jsContent := map[string]string{
 				"client_script": extractCDATA(widget.ClientScript),
 				"css":           extractCDATA(widget.Css),
@@ -119,7 +117,7 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 
 			for key, value := range jsContent {
 				fileName := widgetFileTypes[key]
-				filePath := filepath.Join(dirPath, fileName)
+				filePath := filepath.Join(widgetDirPath, fileName)
 				if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
 					return err
 				}
@@ -128,9 +126,7 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 		} else {
 			fileName := fmt.Sprintf("%s.js", strings.ToLower(script.Name))
 			filePath := filepath.Join(dirPath, fileName)
-
 			jsContent := extractCDATA(script.Payload)
-
 			if err := ioutil.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
 				return err
 			}
