@@ -39,9 +39,20 @@ type Widget struct {
 	Link         string   `xml:"link"`
 }
 
+type HeaderFooter struct {
+	XMLName      xml.Name `xml:"sp_header_footer"`
+	ClientScript string   `xml:"client_script"`
+	Css          string   `xml:"css"`
+	Script       string   `xml:"script"`
+	Template     string   `xml:"template"`
+	OptionSchema string   `xml:"option_schema"`
+	Link         string   `xml:"link"`
+}
+
 type RecordUpdate struct {
-	XMLName xml.Name `xml:"record_update"`
-	Widget  Widget   `xml:"sp_widget"`
+	XMLName      xml.Name     `xml:"record_update"`
+	Widget       Widget       `xml:"sp_widget"`
+	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
 }
 
 func parseXMLFile(filePath string) (*Unload, error) {
@@ -99,20 +110,34 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 				continue
 			}
 
-			// Create directory for the widget
 			widgetDirPath := filepath.Join(dirPath, script.Name)
 			if err := os.MkdirAll(widgetDirPath, 0755); err != nil {
 				return err
 			}
 
-			widget := recordUpdate.Widget
-			jsContent := doWidgetOperation(widget)
+			spWidget := recordUpdate.Widget
+			header := recordUpdate.HeaderFooter
 
-			for key, value := range jsContent {
-				fileName := widgetFileTypes[key]
-				filePath := filepath.Join(widgetDirPath, fileName)
-				if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
-					return err
+			jsContent := doWidgetOperation(spWidget)
+			headerContent := doHeaderFooterOperation(header)
+
+			if script.Type == "Widget" {
+				for key, value := range jsContent {
+					fileName := widgetFileTypes[key]
+					filePath := filepath.Join(widgetDirPath, fileName)
+					if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
+						return err
+					}
+				}
+			}
+
+			if script.Type == "Header | Footer" {
+				for key, value := range headerContent {
+					fileName := widgetFileTypes[key]
+					filePath := filepath.Join(widgetDirPath, fileName)
+					if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
+						return err
+					}
 				}
 			}
 
@@ -130,6 +155,18 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 }
 
 func doWidgetOperation(widget Widget) map[string]string {
+	content := map[string]string{
+		"client_script": extractCDATA(widget.ClientScript),
+		"css":           extractCDATA(widget.Css),
+		"script":        extractCDATA(widget.Script),
+		"template":      extractCDATA(widget.Template),
+		"option_schema": extractCDATA(widget.OptionSchema),
+		"link":          extractCDATA(widget.Link),
+	}
+	return content
+}
+
+func doHeaderFooterOperation(widget HeaderFooter) map[string]string {
 	content := map[string]string{
 		"client_script": extractCDATA(widget.ClientScript),
 		"css":           extractCDATA(widget.Css),
