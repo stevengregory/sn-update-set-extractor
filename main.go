@@ -138,29 +138,21 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 				return err
 			}
 
-			jsContent := doWidgetOperation(recordUpdate.Widget)
-			headerContent := doWidgetOperation(recordUpdate.HeaderFooter)
-
-			if script.Type == "Widget" {
-				for key, value := range jsContent {
-					fileName := widgetFileTypes[key]
-					filePath := filepath.Join(widgetDirPath, fileName)
-					if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
-						return err
-					}
-				}
+			var content map[string]string
+			switch script.Type {
+			case "Widget":
+				content = doWidgetOperation(recordUpdate.Widget)
+			case "Header | Footer":
+				content = doWidgetOperation(recordUpdate.HeaderFooter)
 			}
 
-			if script.Type == "Header | Footer" {
-				for key, value := range headerContent {
-					fileName := widgetFileTypes[key]
-					filePath := filepath.Join(widgetDirPath, fileName)
-					if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
-						return err
-					}
+			for key, value := range content {
+				fileName := widgetFileTypes[key]
+				filePath := filepath.Join(widgetDirPath, fileName)
+				if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
+					return err
 				}
 			}
-
 		} else {
 			fileName := fmt.Sprintf("%s.js", strings.ToLower(script.Name))
 			filePath := filepath.Join(dirPath, fileName)
