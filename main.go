@@ -106,14 +106,7 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 			}
 
 			widget := recordUpdate.Widget
-			jsContent := map[string]string{
-				"client_script": extractCDATA(widget.ClientScript),
-				"css":           extractCDATA(widget.Css),
-				"script":        extractCDATA(widget.Script),
-				"template":      extractCDATA(widget.Template),
-				"option_schema": extractCDATA(widget.OptionSchema),
-				"link":          extractCDATA(widget.Link),
-			}
+			jsContent := doWidgetOperation(widget)
 
 			for key, value := range jsContent {
 				fileName := widgetFileTypes[key]
@@ -134,6 +127,18 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 	}
 
 	return nil
+}
+
+func doWidgetOperation(widget Widget) map[string]string {
+	content := map[string]string{
+		"client_script": extractCDATA(widget.ClientScript),
+		"css":           extractCDATA(widget.Css),
+		"script":        extractCDATA(widget.Script),
+		"template":      extractCDATA(widget.Template),
+		"option_schema": extractCDATA(widget.OptionSchema),
+		"link":          extractCDATA(widget.Link),
+	}
+	return content
 }
 
 func shouldExclude(fileType string) bool {
