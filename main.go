@@ -55,6 +55,29 @@ type RecordUpdate struct {
 	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
 }
 
+type WidgetContent interface {
+	GetClientScript() string
+	GetCss() string
+	GetScript() string
+	GetTemplate() string
+	GetOptionSchema() string
+	GetLink() string
+}
+
+func (w Widget) GetClientScript() string { return w.ClientScript }
+func (w Widget) GetCss() string          { return w.Css }
+func (w Widget) GetScript() string       { return w.Script }
+func (w Widget) GetTemplate() string     { return w.Template }
+func (w Widget) GetOptionSchema() string { return w.OptionSchema }
+func (w Widget) GetLink() string         { return w.Link }
+
+func (h HeaderFooter) GetClientScript() string { return h.ClientScript }
+func (h HeaderFooter) GetCss() string          { return h.Css }
+func (h HeaderFooter) GetScript() string       { return h.Script }
+func (h HeaderFooter) GetTemplate() string     { return h.Template }
+func (h HeaderFooter) GetOptionSchema() string { return h.OptionSchema }
+func (h HeaderFooter) GetLink() string         { return h.Link }
+
 func parseXMLFile(filePath string) (*Unload, error) {
 	xmlData, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -115,11 +138,8 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 				return err
 			}
 
-			spWidget := recordUpdate.Widget
-			header := recordUpdate.HeaderFooter
-
-			jsContent := doWidgetOperation(spWidget)
-			headerContent := doHeaderFooterOperation(header)
+			jsContent := doWidgetOperation(recordUpdate.Widget)
+			headerContent := doWidgetOperation(recordUpdate.HeaderFooter)
 
 			if script.Type == "Widget" {
 				for key, value := range jsContent {
@@ -154,26 +174,14 @@ func createDirectoryStructureAndFiles(unload *Unload, outputDir string) error {
 	return nil
 }
 
-func doWidgetOperation(widget Widget) map[string]string {
+func doWidgetOperation(widgetContent WidgetContent) map[string]string {
 	content := map[string]string{
-		"client_script": extractCDATA(widget.ClientScript),
-		"css":           extractCDATA(widget.Css),
-		"script":        extractCDATA(widget.Script),
-		"template":      extractCDATA(widget.Template),
-		"option_schema": extractCDATA(widget.OptionSchema),
-		"link":          extractCDATA(widget.Link),
-	}
-	return content
-}
-
-func doHeaderFooterOperation(widget HeaderFooter) map[string]string {
-	content := map[string]string{
-		"client_script": extractCDATA(widget.ClientScript),
-		"css":           extractCDATA(widget.Css),
-		"script":        extractCDATA(widget.Script),
-		"template":      extractCDATA(widget.Template),
-		"option_schema": extractCDATA(widget.OptionSchema),
-		"link":          extractCDATA(widget.Link),
+		"client_script": extractCDATA(widgetContent.GetClientScript()),
+		"css":           extractCDATA(widgetContent.GetCss()),
+		"script":        extractCDATA(widgetContent.GetScript()),
+		"template":      extractCDATA(widgetContent.GetTemplate()),
+		"option_schema": extractCDATA(widgetContent.GetOptionSchema()),
+		"link":          extractCDATA(widgetContent.GetLink()),
 	}
 	return content
 }
