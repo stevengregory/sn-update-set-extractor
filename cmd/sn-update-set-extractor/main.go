@@ -23,7 +23,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = fileops.CreateDirectoryStructureAndFiles(unload, outputDir)
+	err = fileops.CreateDirsAndFiles(unload, outputDir)
 	if err != nil {
 		fmt.Println("Error creating directory structure and files:", err)
 		os.Exit(1)

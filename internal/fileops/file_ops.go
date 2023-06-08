@@ -11,7 +11,7 @@ import (
 	"github.com/stevengregory/sn-update-set-extractor/internal/xmlparser"
 )
 
-func CreateDirectoryStructureAndFiles(unload *xmlparser.Unload, outputDir string) error {
+func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 	widgetFileTypes := map[string]string{
 		"client_script": "client-script.js",
 		"css":           "style.scss",
@@ -22,7 +22,7 @@ func CreateDirectoryStructureAndFiles(unload *xmlparser.Unload, outputDir string
 	}
 
 	for _, script := range unload.XMLScripts {
-		if ShouldExclude(script.Type) {
+		if shouldExclude(script.Type) {
 			continue
 		}
 
@@ -84,7 +84,7 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 	return content
 }
 
-func ShouldExclude(fileType string) bool {
+func shouldExclude(fileType string) bool {
 	if fileType == "System Property" ||
 		fileType == "Access Roles" ||
 		fileType == "Dictionary" ||
