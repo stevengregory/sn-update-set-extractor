@@ -12,14 +12,7 @@ import (
 )
 
 func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
-	widgetFileTypes := map[string]string{
-		"client_script": "client-script.js",
-		"css":           "style.scss",
-		"script":        "script.js",
-		"template":      "template.html",
-		"option_schema": "options.json",
-		"link":          "link.js",
-	}
+	widgetFileTypes := getWidgetFileTypes()
 
 	for _, script := range unload.XMLScripts {
 		if shouldExclude(script.Type) {
@@ -95,6 +88,17 @@ func excludedFileTypes() map[string]struct{} {
 		"REST Message":          {},
 		"Scripted REST API":     {},
 		"Scripted REST Version": {},
+	}
+}
+
+func getWidgetFileTypes() map[string]string {
+	return map[string]string{
+		"client_script": "client-script.js",
+		"css":           "style.scss",
+		"script":        "script.js",
+		"template":      "template.html",
+		"option_schema": "options.json",
+		"link":          "link.js",
 	}
 }
 
