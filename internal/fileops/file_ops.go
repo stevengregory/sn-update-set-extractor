@@ -37,13 +37,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 				return err
 			}
 
-			var content map[string]string
-			switch script.Type {
-			case "Widget":
-				content = doWidgetOperation(recordUpdate.Widget)
-			case "Header | Footer":
-				content = doWidgetOperation(recordUpdate.HeaderFooter)
-			}
+			content := getWidgetContentType(script.Type, recordUpdate)
 
 			for key, value := range content {
 				fileName := widgetFileTypes[key]
@@ -89,6 +83,17 @@ func excludedFileTypes() map[string]struct{} {
 		"Scripted REST API":     {},
 		"Scripted REST Version": {},
 	}
+}
+
+func getWidgetContentType(fileType string, recordUpdate xmlparser.RecordUpdate) map[string]string {
+	var content map[string]string
+	switch fileType {
+	case "Widget":
+		content = doWidgetOperation(recordUpdate.Widget)
+	case "Header | Footer":
+		content = doWidgetOperation(recordUpdate.HeaderFooter)
+	}
+	return content
 }
 
 func getWidgetFileTypes() map[string]string {
