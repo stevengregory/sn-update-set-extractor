@@ -84,17 +84,21 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 	return content
 }
 
-func shouldExclude(fileType string) bool {
-	if fileType == "System Property" ||
-		fileType == "Access Roles" ||
-		fileType == "Dictionary" ||
-		fileType == "Field Label" ||
-		fileType == "Form Layout" ||
-		fileType == "HTTP Method" ||
-		fileType == "REST Message" ||
-		fileType == "Scripted REST API" ||
-		fileType == "Scripted REST Version" {
-		return true
+func excludedFileTypes() map[string]struct{} {
+	return map[string]struct{}{
+		"System Property":       {},
+		"Access Roles":          {},
+		"Dictionary":            {},
+		"Field Label":           {},
+		"Form Layout":           {},
+		"HTTP Method":           {},
+		"REST Message":          {},
+		"Scripted REST API":     {},
+		"Scripted REST Version": {},
 	}
-	return false
+}
+
+func shouldExclude(fileType string) bool {
+	_, exclude := excludedFileTypes()[fileType]
+	return exclude
 }
