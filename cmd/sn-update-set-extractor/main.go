@@ -9,24 +9,29 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Println("Please provide the XML file path and the output directory as arguments.")
+	dataDir := "./data"
+	outputDir := "./dist"
+
+	files, err := os.ReadDir(dataDir)
+	if err != nil {
+		fmt.Println("Error reading data directory:", err)
 		os.Exit(1)
 	}
 
-	xmlFilePath := os.Args[1]
-	outputDir := os.Args[2]
+	for _, file := range files {
+		xmlFilePath := dataDir + "/" + file.Name()
 
-	unload, err := xmlparser.ParseXMLFile(xmlFilePath)
-	if err != nil {
-		fmt.Println("Error parsing XML:", err)
-		os.Exit(1)
-	}
+		unload, err := xmlparser.ParseXMLFile(xmlFilePath)
+		if err != nil {
+			fmt.Println("Error parsing XML:", err)
+			os.Exit(1)
+		}
 
-	err = fileops.CreateDirsAndFiles(unload, outputDir)
-	if err != nil {
-		fmt.Println("Error creating directory structure and files:", err)
-		os.Exit(1)
+		err = fileops.CreateDirsAndFiles(unload, outputDir)
+		if err != nil {
+			fmt.Println("Error creating directory structure and files:", err)
+			os.Exit(1)
+		}
 	}
 
 	fmt.Println("Directories and files successfully created in", outputDir)
