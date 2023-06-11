@@ -46,10 +46,10 @@ dist/
 │   └── sys_script_include_fd12c85cc39f55109cdb161ce001318a.js
 └── Widget/
     └── MyWidget/
-        ├── client-script.js
+        ├── client_script.js
         ├── link.js
-        ├── options.json
-        ├── script.js
+        ├── option_schema.json
+        ├── server_script.js
         ├── style.scss
         └── template.html
 ```

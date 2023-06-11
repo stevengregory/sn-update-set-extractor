@@ -98,11 +98,11 @@ func getWidgetContentType(fileType string, recordUpdate xmlparser.RecordUpdate) 
 
 func getWidgetFileTypes() map[string]string {
 	return map[string]string{
-		"client_script": "client-script.js",
+		"client_script": "client_script.js",
 		"css":           "style.scss",
-		"script":        "script.js",
+		"script":        "server_script.js",
 		"template":      "template.html",
-		"option_schema": "options.json",
+		"option_schema": "option_schema.json",
 		"link":          "link.js",
 	}
 }
