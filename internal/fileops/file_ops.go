@@ -15,7 +15,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 	widgetFileTypes := getWidgetFileTypes()
 
 	for _, script := range unload.XMLScripts {
-		if shouldExclude(script.Type) {
+		if !shouldInclude(script.Type) {
 			continue
 		}
 
@@ -71,17 +71,15 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 	return content
 }
 
-func excludedFileTypes() map[string]struct{} {
+func includedFileTypes() map[string]struct{} {
 	return map[string]struct{}{
-		"System Property":       {},
-		"Access Roles":          {},
-		"Dictionary":            {},
-		"Field Label":           {},
-		"Form Layout":           {},
-		"HTTP Method":           {},
-		"REST Message":          {},
-		"Scripted REST API":     {},
-		"Scripted REST Version": {},
+		"Business Rule":          {},
+		"Client Script":          {},
+		"Header | Footer":        {},
+		"Script Include":         {},
+		"Scripted REST Resource": {},
+		"UI Script":              {},
+		"Widget":                 {},
 	}
 }
 
@@ -107,7 +105,7 @@ func getWidgetFileTypes() map[string]string {
 	}
 }
 
-func shouldExclude(fileType string) bool {
-	_, exclude := excludedFileTypes()[fileType]
-	return exclude
+func shouldInclude(fileType string) bool {
+	_, include := includedFileTypes()[fileType]
+	return include
 }
