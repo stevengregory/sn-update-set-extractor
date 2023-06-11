@@ -43,7 +43,7 @@ The code extracted from the XML files will be placed in the `dist` directory. Th
 ```
 dist/
 ├── Script Include/
-│   └── sys_script_include_fd12c85cc39f55109cdb161ce001318a.js
+│   └── MyScript.js
 └── Widget/
     └── MyWidget/
         ├── client_script.js
