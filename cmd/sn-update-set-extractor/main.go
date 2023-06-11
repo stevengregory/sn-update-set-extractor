@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/stevengregory/sn-update-set-extractor/internal/fileops"
 	"github.com/stevengregory/sn-update-set-extractor/internal/xmlparser"
@@ -19,11 +20,15 @@ func main() {
 	}
 
 	for _, file := range files {
+		if !strings.HasSuffix(file.Name(), ".xml") {
+			continue
+		}
+
 		xmlFilePath := dataDir + "/" + file.Name()
 
 		unload, err := xmlparser.ParseXMLFile(xmlFilePath)
 		if err != nil {
-			fmt.Println("Error parsing XML:", err)
+			fmt.Println("Error parsing XML file", file.Name(), ":", err)
 			os.Exit(1)
 		}
 
