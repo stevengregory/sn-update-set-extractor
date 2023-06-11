@@ -72,18 +72,6 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 	return content
 }
 
-func includedFileTypes() map[string]struct{} {
-	return map[string]struct{}{
-		"Business Rule":          {},
-		"Client Script":          {},
-		"Header | Footer":        {},
-		"Script Include":         {},
-		"Scripted REST Resource": {},
-		"UI Script":              {},
-		"Widget":                 {},
-	}
-}
-
 func getWidgetContentType(fileType string, recordUpdate xmlparser.RecordUpdate) map[string]string {
 	var content map[string]string
 	switch fileType {
@@ -107,6 +95,18 @@ func getWidgetFileTypes() map[string]string {
 }
 
 func shouldInclude(fileType string) bool {
-	_, include := includedFileTypes()[fileType]
+	_, include := supportedFileTypes()[fileType]
 	return include
+}
+
+func supportedFileTypes() map[string]struct{} {
+	return map[string]struct{}{
+		"Business Rule":          {},
+		"Client Script":          {},
+		"Header | Footer":        {},
+		"Script Include":         {},
+		"Scripted REST Resource": {},
+		"UI Script":              {},
+		"Widget":                 {},
+	}
 }
