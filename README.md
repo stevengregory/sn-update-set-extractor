@@ -38,7 +38,7 @@ make run    # Execute the compiled binary
 
 The utility expects to find update sets in the `data` directory. It will process all XML files found in this directory.
 
-The code extracted from the XML files will be placed in the `dist` directory. The directory structure will be organized based on file type. For example:
+The code extracted from the XML files will be placed in the `dist` directory. The directory structure will be organized based on file types. For example:
 
 ```
 dist/
