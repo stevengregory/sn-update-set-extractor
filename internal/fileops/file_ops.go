@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/stevengregory/sn-update-set-extractor/internal/xmlparser"
 )
@@ -32,7 +31,9 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 				continue
 			}
 
-			widgetDirPath := filepath.Join(dirPath, script.Name)
+			scriptName := script.TargetName
+
+			widgetDirPath := filepath.Join(dirPath, scriptName)
 			if err := os.MkdirAll(widgetDirPath, 0755); err != nil {
 				return err
 			}
@@ -47,7 +48,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 				}
 			}
 		} else {
-			fileName := fmt.Sprintf("%s.js", strings.ToLower(script.Name))
+			fileName := fmt.Sprintf("%s.js", script.TargetName)
 			filePath := filepath.Join(dirPath, fileName)
 			jsContent := xmlparser.ExtractCDATA(script.Payload)
 			if err := ioutil.WriteFile(filePath, []byte(jsContent), 0644); err != nil {

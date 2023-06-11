@@ -20,6 +20,7 @@ type XMLScript struct {
 	Name        string `xml:"name"`
 	Type        string `xml:"type"`
 	Payload     string `xml:"payload"`
+	TargetName  string `xml:"target_name"`
 }
 
 type Widget struct {
@@ -44,6 +45,7 @@ type HeaderFooter struct {
 
 type RecordUpdate struct {
 	XMLName      xml.Name     `xml:"record_update"`
+	TargetName   string       `xml:"target_name"`
 	Widget       Widget       `xml:"sp_widget"`
 	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
 }
