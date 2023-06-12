@@ -22,6 +22,9 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			return err
 		}
 
+		fileName := fmt.Sprintf("%s.js", script.TargetName)
+		filePath := filepath.Join(dirPath, fileName)
+
 		if script.Type == "Widget" || script.Type == "Header | Footer" {
 			var recordUpdate xmlparser.RecordUpdate
 			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
@@ -46,9 +49,19 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 					return err
 				}
 			}
+		} else if script.Type == "Fix Script" {
+			var recordUpdate xmlparser.RecordUpdate
+			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
+			if err != nil {
+				fmt.Printf("Failed to parse fix script: %v\n", err)
+				continue
+			}
+
+			jsContent := xmlparser.ExtractCDATA(recordUpdate.FixScript.Description)
+			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
+				return err
+			}
 		} else {
-			fileName := fmt.Sprintf("%s.js", script.TargetName)
-			filePath := filepath.Join(dirPath, fileName)
 			jsContent := xmlparser.ExtractCDATA(script.Payload)
 			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
 				return err
@@ -102,6 +115,7 @@ func supportedFileTypes() map[string]struct{} {
 	return map[string]struct{}{
 		"Business Rule":          {},
 		"Client Script":          {},
+		"Fix Script":             {},
 		"Header | Footer":        {},
 		"Script Include":         {},
 		"Scripted REST Resource": {},

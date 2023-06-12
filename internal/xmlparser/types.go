@@ -43,11 +43,16 @@ type HeaderFooter struct {
 	Link         string   `xml:"link"`
 }
 
+type FixScript struct {
+	Description string `xml:"description"`
+}
+
 type RecordUpdate struct {
 	XMLName      xml.Name     `xml:"record_update"`
 	TargetName   string       `xml:"target_name"`
 	Widget       Widget       `xml:"sp_widget"`
 	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
+	FixScript    FixScript    `xml:"sys_script_fix"`
 }
 
 type WidgetContent interface {
