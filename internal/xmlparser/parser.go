@@ -2,11 +2,11 @@ package xmlparser
 
 import (
 	"encoding/xml"
-	"io/ioutil"
+	"os"
 )
 
 func ParseXMLFile(filePath string) (*Unload, error) {
-	xmlData, err := ioutil.ReadFile(filePath)
+	xmlData, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, err
 	}

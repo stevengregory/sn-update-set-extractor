@@ -3,7 +3,6 @@ package fileops
 import (
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -43,7 +42,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			for key, value := range content {
 				fileName := widgetFileTypes[key]
 				filePath := filepath.Join(widgetDirPath, fileName)
-				if err := ioutil.WriteFile(filePath, []byte(value), 0644); err != nil {
+				if err := os.WriteFile(filePath, []byte(value), 0644); err != nil {
 					return err
 				}
 			}
@@ -51,7 +50,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			fileName := fmt.Sprintf("%s.js", script.TargetName)
 			filePath := filepath.Join(dirPath, fileName)
 			jsContent := xmlparser.ExtractCDATA(script.Payload)
-			if err := ioutil.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
+			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
 				return err
 			}
 		}
