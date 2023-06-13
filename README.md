@@ -6,13 +6,11 @@ A ServiceNow utility designed to streamline the process of extracting code from 
 
 This utility, written in Go, processes ServiceNow update sets. It extracts and organizes code from XML files into corresponding directories and files, making it easier to use in an IDE.
 
-## How to Use
-
-### Prerequisites
+## Prerequisites
 
 - Go (1.16 or later)
 
-### Building & Running
+## Building & Running
 
 You can build and run the project using the `make` command. This command executes the steps defined in the Makefile, which are:
 
@@ -34,7 +32,7 @@ make build  # Compile the Go project
 make run    # Execute the compiled binary
 ```
 
-### Input & Output
+## Input & Output
 
 The utility expects to find update sets in the `data` directory. It will process all XML files found in this directory.
 
