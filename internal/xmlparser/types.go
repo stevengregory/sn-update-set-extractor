@@ -47,12 +47,17 @@ type FixScript struct {
 	Description string `xml:"description"`
 }
 
+type UIAction struct {
+	Script string `xml:"script"`
+}
+
 type RecordUpdate struct {
 	XMLName      xml.Name     `xml:"record_update"`
 	TargetName   string       `xml:"target_name"`
 	Widget       Widget       `xml:"sp_widget"`
 	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
 	FixScript    FixScript    `xml:"sys_script_fix"`
+	UIAction     UIAction     `xml:"sys_ui_action"`
 }
 
 type WidgetContent interface {
