@@ -40,8 +40,10 @@ The code extracted from the XML files will be placed in the `dist` directory. Th
 
 ```
 dist/
+├── Business Rule/
+│   └── MyBusinessRule.js
 ├── Script Include/
-│   └── MyScript.js
+│   └── MyScriptInclude.js
 └── Widget/
     └── MyWidget/
         ├── client_script.js
@@ -51,6 +53,21 @@ dist/
         ├── style.scss
         └── template.html
 ```
+
+## Supported File Types
+
+Currently, the extraction & organization of the following ServiceNow file types is supported:
+
+- Business Rule
+- Client Script
+- Fix Script
+- Header | Footer
+- Script Include
+- Scripted REST Resource
+- UI Script
+- Widget
+
+Efforts to support additional file types are ongoing. If there's a specific file type you'd like to see supported, please create an issue in the GitHub repository.
 
 ## License
 
