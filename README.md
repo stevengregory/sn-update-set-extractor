@@ -34,9 +34,9 @@ make run    # Execute the compiled binary
 
 ## Input & Output
 
-The utility expects to find update sets in the `data` directory. It will process all XML files found in this directory.
+Load your ServiceNow update sets into the `data` directory, and the utility will process all XML files it contains.
 
-The code extracted from the XML files will be placed in the `dist` directory. The directory structure will be organized based on file types. For example:
+The extracted code is then structured and saved in the `dist` directory. Each file type gets its own directory for easy navigation. For example, the output directory structure might look like:
 
 ```
 dist/
