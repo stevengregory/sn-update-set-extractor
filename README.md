@@ -8,23 +8,30 @@ This utility, written in Go, processes ServiceNow update sets. It extracts and o
 
 ## Prerequisites
 
-- Go (1.16 or later)
+- [Go (1.16 or later)](https://go.dev/doc/install)
+
+## Getting Started
+
+Clone the repository & change directory:
+
+```sh
+git clone https://github.com/stevengregory/sn-update-set-extractor
+cd sn-update-set-extractor
+```
+
+## Load Update Sets
+
+In the root of the project, create a `data` directory.
+
+```sh
+mkdir data
+```
+
+Load your update sets into this directory. When running the project, the utility will process all XML files it contains.
 
 ## Building & Running
 
-You can build and run the project using the `make` command. This command executes the steps defined in the Makefile, which are:
-
-1. `clean`: Remove any previous build and output files.
-1. `build`: Compile the Go project.
-1. `run`: Execute the compiled binary.
-
-To perform all of these steps in one go, use:
-
-```sh
-make
-```
-
-If you prefer to run these steps individually, you can do so using the following commands:
+To build and run the project, use the following commands:
 
 ```sh
 make clean  # Remove any previous build and output files
@@ -32,11 +39,15 @@ make build  # Compile the Go project
 make run    # Execute the compiled binary
 ```
 
-## Input & Output
+Run the `make` command to perform all of these steps in one go:
 
-Load your ServiceNow update sets into the `data` directory, and the utility will process all XML files it contains.
+```sh
+make
+```
 
-The extracted code is then structured and saved in the `dist` directory. Each file type gets its own directory for easy navigation. For example, the output directory structure might look like:
+## Generated Output
+
+After building & running the project, the extracted code is then structured and saved in the `dist` directory. Each file type gets its own directory for easy navigation. For example, the output directory structure might look like:
 
 ```
 dist/
@@ -68,6 +79,10 @@ Currently, the extraction & organization of the following ServiceNow file types 
 - Widget
 
 Efforts to support additional file types are ongoing. If there's a specific file type you'd like to see supported, please create an issue in the GitHub repository.
+
+## Changelog
+
+For a detailed breakdown of all changes made to this project, see the [CHANGELOG](CHANGELOG.md) file.
 
 ## License
 
