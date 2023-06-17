@@ -75,6 +75,7 @@ Currently, the extraction & organization of the following ServiceNow file types 
 - Header | Footer
 - Script Include
 - Scripted REST Resource
+- Theme
 - UI Action
 - UI Script
 - Widget
