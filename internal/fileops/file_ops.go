@@ -22,7 +22,8 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			return err
 		}
 
-		fileName := fmt.Sprintf("%s.js", script.TargetName)
+		fileExt := getFileExtForType(script.Type)
+		fileName := fmt.Sprintf("%s.%s", script.TargetName, fileExt)
 		filePath := filepath.Join(dirPath, fileName)
 
 		if script.Type == "Widget" || script.Type == "Header | Footer" {
@@ -73,6 +74,18 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
 				return err
 			}
+		} else if script.Type == "Theme" {
+			var recordUpdate xmlparser.RecordUpdate
+			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
+			if err != nil {
+				fmt.Printf("Failed to parse theme: %v\n", err)
+				continue
+			}
+
+			scssContent := xmlparser.ExtractCDATA(recordUpdate.Theme.CssVariables)
+			if err := os.WriteFile(filePath, []byte(scssContent), 0644); err != nil {
+				return err
+			}
 		} else {
 			jsContent := xmlparser.ExtractCDATA(script.Payload)
 			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
@@ -94,6 +107,15 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 		"link":          xmlparser.ExtractCDATA(widgetContent.GetLink()),
 	}
 	return content
+}
+
+func getFileExtForType(fileType string) string {
+	switch fileType {
+	case "Theme":
+		return "scss"
+	default:
+		return "js"
+	}
 }
 
 func getWidgetContentType(fileType string, recordUpdate xmlparser.RecordUpdate) map[string]string {
@@ -133,6 +155,7 @@ func supportedFileTypes() map[string]struct{} {
 		"Scripted REST Resource": {},
 		"UI Action":              {},
 		"UI Script":              {},
+		"Theme":                  {},
 		"Widget":                 {},
 	}
 }

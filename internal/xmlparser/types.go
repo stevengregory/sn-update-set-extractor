@@ -47,6 +47,10 @@ type FixScript struct {
 	Description string `xml:"description"`
 }
 
+type Theme struct {
+	CssVariables string `xml:"css_variables"`
+}
+
 type UIAction struct {
 	Script string `xml:"script"`
 }
@@ -58,6 +62,7 @@ type RecordUpdate struct {
 	HeaderFooter HeaderFooter `xml:"sp_header_footer"`
 	FixScript    FixScript    `xml:"sys_script_fix"`
 	UIAction     UIAction     `xml:"sys_ui_action"`
+	Theme        Theme        `xml:"sp_theme"`
 }
 
 type WidgetContent interface {
