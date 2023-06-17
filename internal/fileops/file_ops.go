@@ -111,6 +111,8 @@ func doWidgetOperation(widgetContent xmlparser.WidgetContent) map[string]string 
 
 func getFileExtForType(fileType string) string {
 	switch fileType {
+	case "Angular ng-template":
+		return "html"
 	case "Theme":
 		return "scss"
 	default:
@@ -151,6 +153,7 @@ func supportedFileTypes() map[string]struct{} {
 		"Client Script":          {},
 		"Fix Script":             {},
 		"Header | Footer":        {},
+		"Angular ng-template":    {},
 		"Script Include":         {},
 		"Scripted REST Resource": {},
 		"UI Action":              {},

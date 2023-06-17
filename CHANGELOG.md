@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.2.0) (2023-06-17)
+
+### Added
+
+- Support for the "Angular ng-template" file type. The code extractor can now handle HTML templates associated with "Angular ng-template" files.
+- README and CHANGELOG updates to include the information about Angular ng-template support.
+
 ## [1.1.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.1.0) (2023-06-16)
 
 ### Added

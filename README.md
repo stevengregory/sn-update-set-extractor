@@ -69,6 +69,7 @@ dist/
 
 Currently, the extraction & organization of the following ServiceNow file types is supported:
 
+- Angular ng-template
 - Business Rule
 - Client Script
 - Fix Script
