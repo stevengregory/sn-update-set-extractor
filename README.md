@@ -62,6 +62,7 @@ dist/
 ├── Service Portal/
 │   ├── Angular ng-template/
 │   ├── Header | Footer/
+│   ├── Page/
 │   ├── Theme/
 │   └── Widget/
 └── Inbound Integrations/
@@ -77,6 +78,7 @@ Currently, the extraction & organization of the following ServiceNow file types 
 - Client Script
 - Fix Script
 - Header | Footer
+- Page
 - Script Include
 - Scripted REST Resource
 - Theme

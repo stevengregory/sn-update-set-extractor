@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.4.0) (2023-06-19)
+
+### Added
+
+- Support for the "Page" file type. The code extractor can now handle Page configurations associated with "Page" files.
+- README and CHANGELOG updates to include the information about Page support.
+
 ## [1.3.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.3.0) (2023-06-18)
 
 ### Added

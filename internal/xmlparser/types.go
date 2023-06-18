@@ -47,6 +47,10 @@ type FixScript struct {
 	Description string `xml:"description"`
 }
 
+type Page struct {
+	Css string `xml:"css"`
+}
+
 type Theme struct {
 	CssVariables string `xml:"css_variables"`
 }
@@ -63,6 +67,7 @@ type RecordUpdate struct {
 	FixScript    FixScript    `xml:"sys_script_fix"`
 	UIAction     UIAction     `xml:"sys_ui_action"`
 	Theme        Theme        `xml:"sp_theme"`
+	Page         Page         `xml:"sp_page"`
 }
 
 type WidgetContent interface {
