@@ -13,11 +13,12 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 	widgetFileTypes := getWidgetFileTypes()
 
 	for _, script := range unload.XMLScripts {
-		if !shouldInclude(script.Type) {
+		parentDir := getParentDirForType(script.Type)
+		if parentDir == "" {
 			continue
 		}
 
-		dirPath := filepath.Join(outputDir, script.Type)
+		dirPath := filepath.Join(outputDir, parentDir, script.Type)
 		if err := os.MkdirAll(dirPath, 0755); err != nil {
 			return err
 		}
@@ -120,6 +121,23 @@ func getFileExtForType(fileType string) string {
 	}
 }
 
+func getParentDirForType(fileType string) string {
+	parentDirs := map[string]string{
+		"Client Script":          "Client Development",
+		"UI Script":              "Client Development",
+		"Angular ng-template":    "Service Portal",
+		"Header | Footer":        "Service Portal",
+		"Theme":                  "Service Portal",
+		"Widget":                 "Service Portal",
+		"Business Rule":          "Server Development",
+		"Fix Script":             "Server Development",
+		"Script Include":         "Server Development",
+		"UI Action":              "Server Development",
+		"Scripted REST Resource": "Inbound Integrations",
+	}
+	return parentDirs[fileType]
+}
+
 func getWidgetContentType(fileType string, recordUpdate xmlparser.RecordUpdate) map[string]string {
 	var content map[string]string
 	switch fileType {
@@ -142,23 +160,18 @@ func getWidgetFileTypes() map[string]string {
 	}
 }
 
-func shouldInclude(fileType string) bool {
-	_, include := supportedFileTypes()[fileType]
-	return include
-}
-
 func supportedFileTypes() map[string]struct{} {
 	return map[string]struct{}{
-		"Business Rule":          {},
 		"Client Script":          {},
-		"Fix Script":             {},
-		"Header | Footer":        {},
-		"Angular ng-template":    {},
-		"Script Include":         {},
-		"Scripted REST Resource": {},
-		"UI Action":              {},
 		"UI Script":              {},
+		"Angular ng-template":    {},
+		"Header | Footer":        {},
 		"Theme":                  {},
 		"Widget":                 {},
+		"Business Rule":          {},
+		"Fix Script":             {},
+		"Script Include":         {},
+		"UI Action":              {},
+		"Scripted REST Resource": {},
 	}
 }

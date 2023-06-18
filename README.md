@@ -47,22 +47,25 @@ make
 
 ## Generated Output
 
-After building & running the project, the extracted code is then structured and saved in the `dist` directory. Each file type gets its own directory for easy navigation. For example, the output directory structure might look like:
+After building & running the project, the extracted code is structured and saved in the `dist` directory. Each file type is categorized under a parent directory for easy navigation. For example, the output directory structure might look like:
 
 ```
 dist/
-├── Business Rule/
-│   └── MyBusinessRule.js
-├── Script Include/
-│   └── MyScriptInclude.js
-└── Widget/
-    └── MyWidget/
-        ├── client_script.js
-        ├── link.js
-        ├── option_schema.json
-        ├── server_script.js
-        ├── style.scss
-        └── template.html
+├── Client Development/
+│   ├── Client Script/
+│   └── UI Script/
+├── Server Development/
+│   ├── Business Rule/
+│   ├── Fix Script/
+│   ├── Script Include/
+│   └── UI Action/
+├── Service Portal/
+│   ├── Angular ng-template/
+│   ├── Header | Footer/
+│   ├── Theme/
+│   └── Widget/
+└── Inbound Integrations/
+    └── Scripted REST Resource/
 ```
 
 ## Supported File Types

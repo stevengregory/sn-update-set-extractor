@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.3.0) (2023-06-18)
+
+### Added
+
+- Reorganized the file directory structure for better navigation and categorization of scripts.
+- Update the README with the new directory structure.
+
 ## [1.2.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.2.0) (2023-06-17)
 
 ### Added
