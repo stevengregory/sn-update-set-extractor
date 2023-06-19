@@ -6,6 +6,7 @@
 
 - Support for the "Page" file type. The code extractor can now handle Page configurations associated with "Page" files.
 - README and CHANGELOG updates to include the information about Page support.
+- Ignoring `/tmp` and `/temp` directories in the `.gitignore` to avoid committing temporary files.
 
 ## [1.3.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.3.0) (2023-06-18)
 

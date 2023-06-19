@@ -29,5 +29,9 @@
 # Test data
 /data/
 
+# Temporary files
+/tmp/
+/temp/
+
 # Misc
 .DS_Store
