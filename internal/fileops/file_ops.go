@@ -174,19 +174,3 @@ func getWidgetFileTypes() map[string]string {
 		"link":          "link.js",
 	}
 }
-
-func supportedFileTypes() map[string]struct{} {
-	return map[string]struct{}{
-		"Angular ng-template":    {},
-		"Business Rule":          {},
-		"Client Script":          {},
-		"Fix Script":             {},
-		"Header | Footer":        {},
-		"Script Include":         {},
-		"Scripted REST Resource": {},
-		"Theme":                  {},
-		"UI Action":              {},
-		"UI Script":              {},
-		"Widget":                 {},
-	}
-}
