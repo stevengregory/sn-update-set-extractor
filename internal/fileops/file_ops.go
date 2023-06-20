@@ -99,6 +99,18 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 			if err := os.WriteFile(filePath, []byte(scssContent), 0644); err != nil {
 				return err
 			}
+		} else if script.Type == "Style Sheet" {
+			var recordUpdate xmlparser.RecordUpdate
+			err := xml.Unmarshal([]byte(script.Payload), &recordUpdate)
+			if err != nil {
+				fmt.Printf("Failed to parse style sheet: %v\n", err)
+				continue
+			}
+
+			scssContent := xmlparser.ExtractCDATA(recordUpdate.StyleSheet.Css)
+			if err := os.WriteFile(filePath, []byte(scssContent), 0644); err != nil {
+				return err
+			}
 		} else {
 			jsContent := xmlparser.ExtractCDATA(script.Payload)
 			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
@@ -126,6 +138,8 @@ func getFileExtForType(fileType string) string {
 	switch fileType {
 	case "Angular ng-template":
 		return "html"
+	case "Style Sheet":
+		return "scss"
 	case "Page":
 		return "scss"
 	case "Theme":
@@ -142,6 +156,7 @@ func getParentDirForType(fileType string) string {
 		"Angular ng-template":    "Service Portal",
 		"Header | Footer":        "Service Portal",
 		"Page":                   "Service Portal",
+		"Style Sheet":            "Service Portal",
 		"Theme":                  "Service Portal",
 		"Widget":                 "Service Portal",
 		"Business Rule":          "Server Development",

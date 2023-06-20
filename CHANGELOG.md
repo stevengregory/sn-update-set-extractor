@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.5.0) (2023-06-20)
+
+### Added
+
+- Support for the "Style Sheet" file type. The code extractor can now handle SCSS files associated with "Style Sheet" types.
+- README and CHANGELOG updates to include the information about Style Sheet support.
+
 ## [1.4.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.4.0) (2023-06-19)
 
 ### Added

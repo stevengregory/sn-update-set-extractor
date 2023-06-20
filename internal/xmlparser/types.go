@@ -51,6 +51,10 @@ type Page struct {
 	Css string `xml:"css"`
 }
 
+type StyleSheet struct {
+	Css string `xml:"css"`
+}
+
 type Theme struct {
 	CssVariables string `xml:"css_variables"`
 }
@@ -68,6 +72,7 @@ type RecordUpdate struct {
 	UIAction     UIAction     `xml:"sys_ui_action"`
 	Theme        Theme        `xml:"sp_theme"`
 	Page         Page         `xml:"sp_page"`
+	StyleSheet   StyleSheet   `xml:"sp_css"`
 }
 
 type WidgetContent interface {

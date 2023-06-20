@@ -63,6 +63,7 @@ dist/
 │   ├── Angular ng-template/
 │   ├── Header | Footer/
 │   ├── Page/
+│   ├── Style Sheet/
 │   ├── Theme/
 │   └── Widget/
 └── Inbound Integrations/
@@ -81,6 +82,7 @@ Currently, the extraction & organization of the following ServiceNow file types 
 - Page
 - Script Include
 - Scripted REST Resource
+- Style Sheet
 - Theme
 - UI Action
 - UI Script
