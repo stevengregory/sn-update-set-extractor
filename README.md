@@ -66,6 +66,7 @@ dist/
 │   ├── Style Sheet/
 │   ├── Theme/
 │   └── Widget/
+│   └── Widget Angular Provider/
 └── Inbound Integrations/
     └── Scripted REST Resource/
 ```
@@ -87,6 +88,7 @@ Currently, the extraction & organization of the following ServiceNow file types 
 - UI Action
 - UI Script
 - Widget
+- Widget Angular Provider
 
 Efforts to support additional file types are ongoing. If there's a specific file type you'd like to see supported, please create an issue in the GitHub repository.
 

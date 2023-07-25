@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.6.0) (2023-07-25)
+
+### Added
+
+- Support for the "Widget Angular Provider" file type. The code extractor can now handle files associated with "Widget Angular Provider" types.
+- Updated the file operations and helper functions to include handling for "Widget Angular Provider" files.
+- README and CHANGELOG updates to include the information about "Widget Angular Provider" support.
+
 ## [1.5.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.5.0) (2023-06-20)
 
 ### Added
