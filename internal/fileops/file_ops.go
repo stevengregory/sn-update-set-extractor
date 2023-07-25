@@ -151,19 +151,20 @@ func getFileExtForType(fileType string) string {
 
 func getParentDirForType(fileType string) string {
 	parentDirs := map[string]string{
-		"Client Script":          "Client Development",
-		"UI Script":              "Client Development",
-		"Angular ng-template":    "Service Portal",
-		"Header | Footer":        "Service Portal",
-		"Page":                   "Service Portal",
-		"Style Sheet":            "Service Portal",
-		"Theme":                  "Service Portal",
-		"Widget":                 "Service Portal",
-		"Business Rule":          "Server Development",
-		"Fix Script":             "Server Development",
-		"Script Include":         "Server Development",
-		"UI Action":              "Server Development",
-		"Scripted REST Resource": "Inbound Integrations",
+		"Client Script":           "Client Development",
+		"UI Script":               "Client Development",
+		"Angular ng-template":     "Service Portal",
+		"Widget Angular Provider": "Service Portal",
+		"Header | Footer":         "Service Portal",
+		"Page":                    "Service Portal",
+		"Style Sheet":             "Service Portal",
+		"Theme":                   "Service Portal",
+		"Widget":                  "Service Portal",
+		"Business Rule":           "Server Development",
+		"Fix Script":              "Server Development",
+		"Script Include":          "Server Development",
+		"UI Action":               "Server Development",
+		"Scripted REST Resource":  "Inbound Integrations",
 	}
 	return parentDirs[fileType]
 }
