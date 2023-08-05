@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.1](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.6.1) (2023-08-05)
+
+### Fixed
+
+- Corrected the `FixScript` struct in the XML parser to properly extract the `script` field from XML files. Previously, the parser was set to extract the `description` field.
+
 ## [1.6.0](https://github.com/stevengregory/sn-update-set-extractor/releases/tag/v1.6.0) (2023-07-25)
 
 ### Added
