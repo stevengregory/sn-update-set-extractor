@@ -59,7 +59,7 @@ func CreateDirsAndFiles(unload *xmlparser.Unload, outputDir string) error {
 				continue
 			}
 
-			jsContent := xmlparser.ExtractCDATA(recordUpdate.FixScript.Description)
+			jsContent := xmlparser.ExtractCDATA(recordUpdate.FixScript.Script)
 			if err := os.WriteFile(filePath, []byte(jsContent), 0644); err != nil {
 				return err
 			}

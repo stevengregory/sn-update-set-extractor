@@ -44,7 +44,7 @@ type HeaderFooter struct {
 }
 
 type FixScript struct {
-	Description string `xml:"description"`
+	Script string `xml:"script"`
 }
 
 type Page struct {
